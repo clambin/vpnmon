@@ -23,7 +23,7 @@ def initialise(config):
 def vpnmon(config):
     logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S',
                         level=logging.DEBUG if config.debug else logging.INFO)
-    logging.info(f'Starting pimon v{version}')
+    logging.info(f'Starting vpnmon v{version}')
     logging.info(f'Configuration: {print_configuration(config)}')
 
     start_http_server(config.port)

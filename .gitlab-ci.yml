@@ -133,9 +133,8 @@ test_arm:
     - apk add --update curl
     - docker run -v $(pwd)/tests:/app/tests -p 8080:8080 --name tester --rm -d $CI_PROJECT_PATH:build-arm --debug --interval 1 --client-status /app/tests/client.status
     - sleep 5
-    - curl -s docker:8080/metric # | grep '^openvpn_client_auth_read_bytes_total'
+    - curl -s docker:8080/metric | grep '^openvpn_client_auth_read_bytes_total'
     - docker stop tester
-
 
 publish_nonmaster:
   stage: release
@@ -143,9 +142,16 @@ publish_nonmaster:
   rules:
     - if: $CI_COMMIT_BRANCH != "master"
   script:
-    - docker pull $CI_PROJECT_PATH:build
-    - docker tag $CI_PROJECT_PATH:build $CI_PROJECT_PATH:$CI_COMMIT_BRANCH
-    - docker push $CI_PROJECT_PATH:$CI_COMMIT_BRANCH
+    - docker pull $CI_PROJECT_PATH:build-amd64
+    - docker tag  $CI_PROJECT_PATH:build-amd64 $CI_PROJECT_PATH:$CI_COMMIT_BRANCH-amd64
+    - docker push $CI_PROJECT_PATH:$CI_COMMIT_BRANCH-amd64
+    - docker pull $CI_PROJECT_PATH:build-arm
+    - docker tag  $CI_PROJECT_PATH:build-arm $CI_PROJECT_PATH:$CI_COMMIT_BRANCH-arm
+    - docker push $CI_PROJECT_PATH:$CI_COMMIT_BRANCH-arm
+    - docker manifest create $CI_PROJECT_PATH:$CI_COMMIT_BRANCH
+        $CI_PROJECT_PATH:$CI_COMMIT_BRANCH-amd64
+        $CI_PROJECT_PATH:$CI_COMMIT_BRANCH-arm
+    - docker manifest push -p $CI_PROJECT_PATH:$CI_COMMIT_BRANCH
 
 publish_master:
   stage: release
@@ -153,12 +159,21 @@ publish_master:
   rules:
     - if: $CI_COMMIT_BRANCH == "master"
   script:
-    - VERSION=$(grep -i ^version src/version.py | awk '{ print $3 }' | tr -d \');
-    - docker pull $CI_PROJECT_PATH:build
-    - docker tag $CI_PROJECT_PATH:build $CI_PROJECT_PATH:$VERSION
-    - docker push $CI_PROJECT_PATH:$VERSION
-    - docker tag $CI_PROJECT_PATH:build $CI_PROJECT_PATH:latest
-    - docker push $CI_PROJECT_PATH:latest
+    - export VERSION=$(grep -i  version src/version.py | awk '{ print $3 }' | tr -d \');
+    - docker pull $CI_PROJECT_PATH:build-amd64
+    - docker tag  $CI_PROJECT_PATH:build-amd64 $CI_PROJECT_PATH:$VERSION-amd64
+    - docker push $CI_PROJECT_PATH:$VERSION-amd64
+    - docker pull $CI_PROJECT_PATH:build-arm
+    - docker tag  $CI_PROJECT_PATH:build-arm $CI_PROJECT_PATH:$VERSION-arm
+    - docker push $CI_PROJECT_PATH:$VERSION-arm
+    - docker manifest create $CI_PROJECT_PATH:$VERSION
+        $CI_PROJECT_PATH:$VERSION-amd64
+        $CI_PROJECT_PATH:$VERSION-arm
+    - docker manifest push -p $CI_PROJECT_PATH:$VERSION
+    - docker manifest create $CI_PROJECT_PATH:latest
+        $CI_PROJECT_PATH:$VERSION-amd64
+        $CI_PROJECT_PATH:$VERSION-arm
+    - docker manifest push -p $CI_PROJECT_PATH:latest
 
 github:
   stage: release
