@@ -70,6 +70,7 @@ pytest:
   before_script:
     - pip install pipenv
     - pipenv install --dev
+    - pip install proxy.py
   script:
     - pipenv check
     - proxy --port 8888 &
