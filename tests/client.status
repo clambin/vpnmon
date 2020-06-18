@@ -1,0 +1,12 @@
+OpenVPN STATISTICS
+Updated,Fri Mar  6 13:22:40 2020
+TUN/TAP read bytes,1
+TUN/TAP write bytes,2
+TCP/UDP read bytes,3
+TCP/UDP write bytes,4
+Auth read bytes,5
+pre-compress bytes,6
+post-compress bytes,7
+pre-decompress bytes,8
+post-decompress bytes,9
+END
