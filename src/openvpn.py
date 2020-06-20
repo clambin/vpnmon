@@ -64,6 +64,7 @@ class OpenVPNStatusProbe(APIProbe):
         proxy_dict = None
         if proxies:
             proxy_dict = {proxy.split(':')[0]: proxy for proxy in proxies.split(',')}
+            logging.debug(f'Configured proxies: {proxy_dict}')
         super().__init__('https://ipinfo.io', proxies=proxy_dict)
 
     def report(self, output):
