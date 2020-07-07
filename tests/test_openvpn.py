@@ -1,5 +1,6 @@
 import pytest
 import logging
+import proxy
 from src.openvpn import OpenVPNProbe, OpenVPNStatusProbe
 
 
@@ -29,14 +30,16 @@ def test_status():
     assert probe.measured() is True
 
 
-def test_status_with_proxy():
-    probe = OpenVPNStatusProbe(proxies="https://localhost:8888")
-    probe.run()
-    assert probe.measured() is True
-
-
 def test_status_without_proxy():
-    logging.basicConfig(level=logging.DEBUG)
     probe = OpenVPNStatusProbe(proxies="https://localhost:8889")
     probe.run()
     assert probe.measured() is False
+
+
+def test_status_with_proxy():
+    with proxy.start(['--host', '127.0.0.1', '--port', '8888']):
+        probe = OpenVPNStatusProbe(proxies="https://localhost:8888")
+        probe.run()
+        assert probe.measured() is True
+
+
