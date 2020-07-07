@@ -7,7 +7,7 @@ verify_ssl = true
 pytest = "*"
 pytest-cov = "*"
 coverage = "*"
-proxy.py = "*"
+proxy-py = "*"
 
 [packages]
 requests = "*"

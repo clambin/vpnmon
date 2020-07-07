@@ -6,8 +6,8 @@ include:
 
 stages:
   - unittest
-  - build
   - qa
+  - build
   - release
   - deploy
 
