@@ -1,6 +1,6 @@
 import pytest
-import logging
 import proxy
+import threading
 from src.openvpn import OpenVPNProbe, OpenVPNStatusProbe
 
 
@@ -36,10 +36,14 @@ def test_status_without_proxy():
     assert probe.measured() is False
 
 
+def run_proxy():
+    proxy.main(['--host', '127.0.0.1', '--port', '8888'])
+
+
 def test_status_with_proxy():
+    # for some reason we're dragging in proxy-py 1.1.1, which doesn't have proxy.start
+    threading.Thread(target=run_proxy)
     with proxy.start(['--host', '127.0.0.1', '--port', '8888']):
         probe = OpenVPNStatusProbe(proxies="https://localhost:8888")
         probe.run()
         assert probe.measured() is True
-
-
