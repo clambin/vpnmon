@@ -29,7 +29,7 @@ prometheus:
     - pip install pipenv
     - pipenv install
   script:
-    - pipenv run python vpnmon.py --debug --interval 1 --client-status /app/tests/client.status &
+    - pipenv run python vpnmon.py --debug --interval 1 --client-status tests/client.status &
     - TESTPIP=$?
     - sleep 5
     - curl -s localhost:8080/metric | grep '^openvpn_client_auth_read_bytes_total'
