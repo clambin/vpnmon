@@ -1,7 +1,6 @@
 import pytest
 import proxy
 import time
-import multiprocessing
 from src.openvpn import OpenVPNProbe, OpenVPNStatusProbe
 
 
