@@ -6,7 +6,7 @@ COPY --from=qemu /usr/bin/qemu-arm-static /usr/bin
 
 EXPOSE 8080
 
-RUN addgroup -S -g 1000 abc && adduser -S --uid 1000 --ingroup abc abc
+#RUN addgroup -S -g 1000 abc && adduser -S --uid 1000 --ingroup abc abc
 
 WORKDIR /app
 COPY Pipfile Pipfile.lock ./
@@ -18,6 +18,6 @@ RUN pip install --upgrade pip && \
 COPY *.py ./
 COPY src src/
 
-USER abc
+#USER abc
 ENTRYPOINT ["/usr/local/bin/python3", "vpnmon.py"]
 CMD []
