@@ -37,16 +37,9 @@ def test_status_without_proxy():
     assert probe.measured() is False
 
 
-def run_proxy():
-    proxy.main(['--host', '127.0.0.1', '--port', '8888'])
-
-
 def test_status_with_proxy():
-    # for some reason we're dragging in proxy-py 1.1.1, which doesn't have proxy.start
-    p = multiprocessing.Process(target=run_proxy)
-    p.start()
-    time.sleep(2)
-    probe = OpenVPNStatusProbe(proxies="https://localhost:8888")
-    probe.run()
-    p.terminate()
-    assert probe.measured() is True
+    with proxy.start(['--host', '127.0.0.1', '--port', '8888']):
+        time.sleep(2)
+        probe = OpenVPNStatusProbe(proxies="https://localhost:8888")
+        probe.run()
+        assert probe.measured() is True
