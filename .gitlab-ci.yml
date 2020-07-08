@@ -1,5 +1,5 @@
 include:
-  - remote: 'https://gitlab.com/clambin/gitlab-ci-templates/raw/master/python-tests.yml'
+  - remote: 'https://gitlab.com/clambin/gitlab-ci-templates/raw/python38/python-tests.yml'
   - remote: 'https://gitlab.com/clambin/gitlab-ci-templates/raw/master/docker-build-multiarch.yml'
   - remote: 'https://gitlab.com/clambin/gitlab-ci-templates/raw/master/docker-swarm-deploy.yml'
   - remote: 'https://gitlab.com/clambin/gitlab-ci-templates/raw/master/github.yml'
@@ -24,7 +24,7 @@ workflow:
 
 prometheus:
   stage: qa
-  image: python:3.7
+  image: python:3.8
   before_script:
     - pip install pipenv
     - pipenv install
