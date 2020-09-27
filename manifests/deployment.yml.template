@@ -41,6 +41,6 @@ spec:
           readOnly: true
       volumes:
       - name: transmission
-         nfs:
+        nfs:
           server: 192.168.0.10
           path: /mnt/media/var/transmission
