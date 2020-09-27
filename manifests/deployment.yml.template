@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vpnmon
+  labels:
+   app: vpnmon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vpnmon
+  template:
+    metadata:
+      labels:
+        app: vpnmon
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        app.gitlab.com/app: "__CI_PROJECT_PATH_SLUG__"
+        app.gitlab.com/env: "__CI_ENVIRONMENT_SLUG__"
+    spec:
+      containers:
+      - name: vpnmon
+        image: __IMAGE__:__TAG__
+        imagePullPolicy: Always
+        env:
+          - name: token
+            valueFrom:
+              secretKeyRef:
+                name: vpnmon
+                key: token
+        args:
+          - --debug
+          - --client-status=/data/client.status
+          - --monitor-status=true
+          - --token=$(token)
+          - --proxies=$(proxies)
+        volumeMounts:
+        - name: transmission
+          mountPath: /data
+          readOnly: true
+        volumes:
+          - name: transmission
+            nfs:
+              server: 192.168.0.10
+              path: /mnt/media/var/transmission

@@ -1,8 +1,8 @@
 include:
   - remote: 'https://gitlab.com/clambin/gitlab-ci-templates/raw/python38/python-tests.yml'
-  - remote: 'https://gitlab.com/clambin/gitlab-ci-templates/raw/master/docker-build-multiarch.yml'
-  - remote: 'https://gitlab.com/clambin/gitlab-ci-templates/raw/master/docker-swarm-deploy.yml'
+  - remote: 'https://gitlab.com/clambin/gitlab-ci-templates/raw/master/k3s-docker-build-multiarch.yml'
   - remote: 'https://gitlab.com/clambin/gitlab-ci-templates/raw/master/github.yml'
+  - remote: 'https://gitlab.com/clambin/gitlab-ci-templates/raw/master/k3s-deploy.yml'
 
 stages:
   - unittest
@@ -13,7 +13,7 @@ stages:
 
 variables:
   VERSION: '0.2'
-  DOCKER_SWARM_SERVICE: 'monitor_vpnmon'
+  DEPLOYMENT: manifests/deployment.yml
 
 # Don't run for new tags
 workflow:
