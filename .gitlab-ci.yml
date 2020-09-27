@@ -6,7 +6,6 @@ include:
 
 stages:
   - unittest
-  - qa
   - build
   - release
   - deploy
@@ -23,7 +22,7 @@ workflow:
     - when: always
 
 prometheus:
-  stage: qa
+  stage: unittest
   image: python:3.8
   before_script:
     - pip install pipenv
