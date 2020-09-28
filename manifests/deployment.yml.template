@@ -32,6 +32,11 @@ spec:
               secretKeyRef:
                 name: vpnmon
                 key: token
+          - name: proxies
+            valueFrom:
+              secretKeyRef:
+                name: vpnmon
+                key: proxies
         args:
           - --debug
           - --client-status=/data/client.status
