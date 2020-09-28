@@ -41,6 +41,5 @@ spec:
           readOnly: true
       volumes:
       - name: transmission
-        nfs:
-          server: 192.168.0.10
-          path: /mnt/media/var/transmission
+        persistentVolumeClaim:
+          claimName: pvc-transmission-data
