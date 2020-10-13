@@ -9,6 +9,9 @@ stages:
   - release
   - deploy
 
+variables:
+  TARGET_NAMESPACE: media
+
 prometheus:
   stage: unittest
   image: python:3.8
