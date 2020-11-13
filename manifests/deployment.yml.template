@@ -26,17 +26,9 @@ spec:
       - name: vpnmon
         image: __IMAGE__:__TAG__
         imagePullPolicy: Always
-        env:
-          - name: token
-            valueFrom:
-              secretKeyRef:
-                name: vpnmon
-                key: token
-          - name: proxies
-            valueFrom:
-              secretKeyRef:
-                name: vpnmon
-                key: proxies
+        envFrom:
+        - secretRef:
+            name: vpnmon
         args:
           - --debug
           - --client-status=/data/client.status
@@ -47,6 +39,12 @@ spec:
         - name: transmission
           mountPath: /data
           readOnly: true
+        resources:
+          requests:
+            cpu: 5m
+            memory: 20Mi
+          limits:
+            memory: 30Mi
       volumes:
       - name: transmission
         persistentVolumeClaim:

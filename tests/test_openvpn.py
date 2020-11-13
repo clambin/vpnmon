@@ -39,6 +39,6 @@ def test_status_without_proxy():
 def test_status_with_proxy():
     with proxy.start(['--host', '127.0.0.1', '--port', '8888']):
         time.sleep(2)
-        probe = OpenVPNStatusProbe(proxies="https://localhost:8888")
+        probe = OpenVPNStatusProbe(proxies="http://localhost:8888")
         probe.run()
         assert probe.measured() is True

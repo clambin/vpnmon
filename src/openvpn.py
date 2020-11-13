@@ -51,8 +51,7 @@ class OpenVPNProbe(FileProbe):
     def process(self, content):
         output = {}
         for name, regex in self.metrics.items():
-            result = re.search(regex, content)
-            if result:
+            if result := re.search(regex, content):
                 value = int(result.group(1))
                 output[name] = value
         return output
