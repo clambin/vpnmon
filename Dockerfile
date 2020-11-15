@@ -3,6 +3,7 @@ MAINTAINER Christophe Lambin <christophe.lambin@gmail.com>
 
 EXPOSE 8080
 
+RUN apk add curl
 RUN addgroup -S -g 1000 abc && adduser -S --uid 1000 --ingroup abc abc
 
 WORKDIR /app
