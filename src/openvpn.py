@@ -30,15 +30,15 @@ GAUGES = {
 
 class OpenVPNProbe(FileProbe):
     metrics = {
-        'client_auth_read':       r'Auth read bytes,(\d+)',
-        'client_pre_compress':    r'pre-compress bytes,(\d+)',
-        'client_pre_decompress':  r'pre-decompress bytes,(\d+)',
-        'client_post_compress':   r'post-compress bytes,(\d+)',
+        'client_auth_read': r'Auth read bytes,(\d+)',
+        'client_pre_compress': r'pre-compress bytes,(\d+)',
+        'client_pre_decompress': r'pre-decompress bytes,(\d+)',
+        'client_post_compress': r'post-compress bytes,(\d+)',
         'client_post_decompress': r'post-decompress bytes,(\d+)',
-        'client_tcp_udp_read':    r'TCP/UDP read bytes,(\d+)',
-        'client_tcp_udp_write':   r'TCP/UDP write bytes,(\d+)',
-        'client_tun_tap_read':    r'TUN/TAP read bytes,(\d+)',
-        'client_tun_tap_write':   r'TUN/TAP write bytes,(\d+)',
+        'client_tcp_udp_read': r'TCP/UDP read bytes,(\d+)',
+        'client_tcp_udp_write': r'TCP/UDP write bytes,(\d+)',
+        'client_tun_tap_read': r'TUN/TAP read bytes,(\d+)',
+        'client_tun_tap_write': r'TUN/TAP write bytes,(\d+)',
     }
 
     def __init__(self, filename):

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vpnmon
+  namespace: media
+  labels:
+   app: vpnmon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vpnmon
+  template:
+    metadata:
+      labels:
+        app: vpnmon
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+    spec:
+      containers:
+      - name: vpnmon
+        envFrom:
+        - secretRef:
+            name: vpnmon
+        args:
+        - --debug
+        - --client-status=/data/client.status
+        - --monitor-status=true
+        - --token=$(token)
+        - --proxies=$(proxies)
+        image: clambin/vpnmon:develop
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: transmission
+          mountPath: /data
+          readOnly: true
+        resources:
+          requests:
+            cpu: 5m
+            memory: 20Mi
+          limits:
+            memory: 30Mi
+      volumes:
+      - name: transmission
+        persistentVolumeClaim:
+          claimName: pvc-transmission-data

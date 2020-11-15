@@ -8,6 +8,9 @@ pytest = "*"
 pytest-cov = "*"
 coverage = "*"
 proxy-py = "*"
+bandit = "*"
+flake8 = "*"
+safety = "*"
 
 [packages]
 requests = "*"
