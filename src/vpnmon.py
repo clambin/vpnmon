@@ -15,7 +15,7 @@ def initialise(config):
         logging.warning(f'Could not add OpenVPN monitor: {err}')
 
     if config.monitor_status:
-        scheduler.register(OpenVPNStatusProbe(config.token, config.proxies), 300)
+        scheduler.register(OpenVPNStatusProbe(config.token, config.proxy), 300)
 
     return scheduler
 
