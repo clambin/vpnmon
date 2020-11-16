@@ -21,8 +21,8 @@ spec:
       containers:
       - name: vpnmon
         envFrom:
-          - secretRef:
-              name: vpnmon
+        - secretRef:
+            name: vpnmon
         - configMapRef:
             name: vpnmon
         args:
