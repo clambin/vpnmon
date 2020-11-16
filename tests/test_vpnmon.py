@@ -6,7 +6,7 @@ from src.openvpn import OpenVPNProbe, OpenVPNStatusProbe
 def test_initialise():
     config = argparse.Namespace(interval=0, port=8080,
                                 client_status='client.status',
-                                monitor_status=True, token='123', proxies='http://localhost:8888',
+                                monitor_status=True, token='123', proxy='http://localhost:8888',
                                 once=True, stub=True, debug=True)
     scheduler = initialise(config)
     assert len(scheduler.scheduled_items) == 2
