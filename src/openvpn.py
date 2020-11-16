@@ -58,22 +58,11 @@ class OpenVPNProbe(FileProbe):
 
 
 class OpenVPNStatusProbe(APIProbe):
-    def __init__(self, token=None, proxies=None):
+    def __init__(self, token=None, proxy=None):
         self.token = token
-        if proxy_dict := OpenVPNStatusProbe._parse_proxies(proxies):
-            logging.debug(f'Configured proxies: {proxy_dict}')
-        super().__init__('https://ipinfo.io', proxies=proxy_dict)
-
-    @staticmethod
-    def _parse_proxies(proxies):
-        result = dict()
-        if proxies:
-            for proxy in proxies.split(','):
-                if len(parsed := proxy.split('://')) == 2:
-                    result[parsed[0]] = f'http://{parsed[1]}'
-                else:
-                    logging.warning(f'Could not parse proxy {proxy}. Ignoring')
-        return result
+        if proxy:
+            logging.debug(f'Configured proxies: {proxy}')
+        super().__init__('https://ipinfo.io', proxy)
 
     def report(self, output):
         GAUGES['client_status'].set(1 if output is True else 0)

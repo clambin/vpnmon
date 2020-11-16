@@ -15,12 +15,13 @@ def test_str2bool():
 
 
 def test_main_config():
-    args = '--interval 25 --port 1234 --once --debug'.split()
+    args = '--interval 25 --port 1234 --once --debug --proxy http://localhost:8888'.split()
     config = get_configuration(args)
     assert config.interval == 25
     assert config.port == 1234
     assert config.once
     assert config.debug
+    assert config.proxy == 'http://localhost:8888'
 
 
 def test_default_config():
@@ -31,3 +32,4 @@ def test_default_config():
     assert config.port == 8080
     assert config.stub is False
     assert config.monitor_status is False
+    assert config.proxy == ''

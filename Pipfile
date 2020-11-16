@@ -7,14 +7,13 @@ verify_ssl = true
 pytest = "*"
 pytest-cov = "*"
 coverage = "*"
-proxy-py = "*"
 bandit = "*"
 flake8 = "*"
 safety = "*"
 
 [packages]
 requests = "*"
-pimetrics = "*"
+pimetrics = "==0.4.0"
 prometheus-client = "*"
 
 [requires]

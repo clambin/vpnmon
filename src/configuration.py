@@ -38,8 +38,8 @@ def get_configuration(args=None):
                         help='Enable/disable OpenVPN client status monitoring (default: off)')
     parser.add_argument('--token', default='',
                         help='Token for https://ipinfo.io')
-    parser.add_argument('--proxies', default='',
-                        help='Comma-separated list of OpenVPN proxies to use to check connectivity. '
+    parser.add_argument('--proxy', default='',
+                        help='URL of OpenVPN proxy to check VPN connectivity. '
                              'Requires running a proxy alongside the openvpn server (eg haugene/transmission-openvpn)')
     return parser.parse_args(args)
 
