@@ -21,14 +21,16 @@ spec:
       containers:
       - name: vpnmon
         envFrom:
-        - secretRef:
+          - secretRef:
+              name: vpnmon
+        - configMapRef:
             name: vpnmon
         args:
         - --debug
         - --client-status=/data/client.status
         - --monitor-status=true
         - --token=$(token)
-        - --proxies=$(proxies)
+        - --proxy=$(proxy)
         image: clambin/vpnmon:develop
         imagePullPolicy: Always
         volumeMounts:
