@@ -1,6 +1,6 @@
 import argparse
 import pytest
-from src.configuration import str2bool, get_configuration
+from vpnmon.configuration import str2bool, get_configuration
 
 
 def test_str2bool():

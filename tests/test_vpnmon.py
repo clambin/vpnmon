@@ -1,6 +1,6 @@
 import argparse
-from src.vpnmon import vpnmon, initialise
-from src.openvpn import OpenVPNProbe, OpenVPNStatusProbe
+from vpnmon.vpnmon import vpnmon, initialise
+from vpnmon.openvpn import OpenVPNProbe, OpenVPNStatusProbe
 
 
 def test_initialise():

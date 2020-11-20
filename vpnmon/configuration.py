@@ -1,6 +1,6 @@
 import argparse
 
-from src.version import version
+from vpnmon.version import version
 
 
 def str2bool(v):

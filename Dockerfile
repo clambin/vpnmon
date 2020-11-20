@@ -14,7 +14,7 @@ RUN pip install --upgrade pip && \
     pipenv install --system --ignore-pipfile
 
 COPY *.py ./
-COPY src src/
+COPY vpnmon src/
 
 USER abc
 ENTRYPOINT ["/usr/local/bin/python3", "vpnmon.py"]

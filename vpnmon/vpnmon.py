@@ -1,8 +1,8 @@
 import logging
 from prometheus_client import start_http_server
-from src.version import version
-from src.configuration import print_configuration
-from src.openvpn import OpenVPNProbe, OpenVPNStatusProbe
+from vpnmon.version import version
+from vpnmon.configuration import print_configuration
+from vpnmon.openvpn import OpenVPNProbe, OpenVPNStatusProbe
 from pimetrics.scheduler import Scheduler
 
 

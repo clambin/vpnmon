@@ -1,5 +1,5 @@
 import pytest
-from src.openvpn import OpenVPNProbe, OpenVPNStatusProbe
+from vpnmon.openvpn import OpenVPNProbe, OpenVPNStatusProbe
 
 
 def test_vpn():
