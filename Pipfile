@@ -13,7 +13,7 @@ safety = "*"
 
 [packages]
 requests = "*"
-pimetrics = "==0.4.1"
+pimetrics = "==0.4.4"
 prometheus-client = "*"
 
 [requires]
