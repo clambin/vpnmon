@@ -62,7 +62,7 @@ jobs:
         tags: ${{ steps.docker_meta.outputs.tags }}
         labels: ${{ steps.docker_meta.outputs.labels }}
   deploy:
-    needs: package
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
