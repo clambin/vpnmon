@@ -13,21 +13,8 @@ import (
 	"vpnmon/internal/connectivity"
 )
 
-func TestNewProbe(t *testing.T) {
-	for _, uri := range []string{"notaproxy", "not a proxy", ""} {
-		probe, err := connectivity.NewProbe(uri, "")
-
-		assert.Nil(t, probe, uri)
-		assert.NotNil(t, err, uri)
-	}
-}
-
 func TestProbe_Run(t *testing.T) {
-	probe, err := connectivity.NewProbeWithHTTPClient(httpstub.NewTestClient(loopback), "")
-
-	assert.Nil(t, err)
-
-	probe.Run()
+	connectivity.NewProbeWithHTTPClient(httpstub.NewTestClient(loopback), "").Run()
 
 	value, ok := metrics.LoadValue("openvpn_client_status")
 	assert.True(t, ok)
@@ -35,11 +22,7 @@ func TestProbe_Run(t *testing.T) {
 }
 
 func TestProbe_Run_Fail(t *testing.T) {
-	probe, err := connectivity.NewProbeWithHTTPClient(httpstub.NewTestClient(httpstub.Failing), "")
-
-	assert.Nil(t, err)
-
-	probe.Run()
+	connectivity.NewProbeWithHTTPClient(httpstub.NewTestClient(httpstub.Failing), "").Run()
 
 	value, ok := metrics.LoadValue("openvpn_client_status")
 	assert.True(t, ok)

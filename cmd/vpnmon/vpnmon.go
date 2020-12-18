@@ -3,6 +3,7 @@ package main
 import (
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/alecthomas/kingpin.v2"
+	"net/url"
 	"os"
 	"path/filepath"
 	"time"
@@ -16,8 +17,8 @@ func main() {
 	cfg := struct {
 		port            int
 		debug           bool
-		interval        string
-		openVPNProxy    string
+		interval        time.Duration
+		openVPNProxy    *url.URL
 		openVPNFilename string
 		token           string
 	}{}
@@ -30,8 +31,8 @@ func main() {
 	a.VersionFlag.Short('v')
 	a.Flag("debug", "Log debug messages").BoolVar(&cfg.debug)
 	a.Flag("port", "API listener port").Default("8080").IntVar(&cfg.port)
-	a.Flag("interval", "Time between measurements").Default("30s").StringVar(&cfg.interval)
-	a.Flag("proxy", "OpenVPN proxy URL").Required().StringVar(&cfg.openVPNProxy)
+	a.Flag("interval", "Time between measurements").Default("30s").DurationVar(&cfg.interval)
+	a.Flag("proxy", "OpenVPN proxy URL").Required().URLVar(&cfg.openVPNProxy)
 	a.Flag("file", "OpenVPN status file").Required().StringVar(&cfg.openVPNFilename)
 	a.Flag("token", "ipinfo.io authentication token").Required().StringVar(&cfg.token)
 
@@ -53,22 +54,12 @@ func main() {
 	// Connectivity probe
 	log.Debugf("Starting connectivity probe")
 
-	duration, err := time.ParseDuration(cfg.interval)
-	if err != nil {
-		log.Warningf("failed to parse duration '%s'. Defaulting to 5m", cfg.interval)
-		duration = 5 * time.Minute
-	}
-
-	if probe, err := connectivity.NewProbe(cfg.openVPNProxy, cfg.token); err == nil {
-		go func(probe *connectivity.Probe, duration time.Duration) {
-			for {
-				probe.Run()
-				time.Sleep(duration)
-			}
-		}(probe, duration)
-	} else {
-		log.Warningf("could not start connectivity probe: %s", err.Error())
-	}
+	go func(probe *connectivity.Probe, duration time.Duration) {
+		for {
+			probe.Run()
+			time.Sleep(duration)
+		}
+	}(connectivity.NewProbe(cfg.openVPNProxy, cfg.token), cfg.interval)
 
 	// Bandwidth probe
 	log.Debug("Starting bandwidth probe")
