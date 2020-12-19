@@ -23,6 +23,7 @@ func NewProbe(filename string) *Probe {
 // Run the probe. Collect all requires metrics
 func (probe *Probe) Run() {
 	if stats, err := probe.getStats(); err == nil {
+		log.Debugf("read: %d, write: %d", stats.clientTcpUdpRead, stats.clientTcpUdpWrite)
 		metrics.Publish("openvpn_client_tcp_udp_read_bytes_total", float64(stats.clientTcpUdpRead))
 		metrics.Publish("openvpn_client_tcp_udp_write_bytes_total", float64(stats.clientTcpUdpWrite))
 	} else {
