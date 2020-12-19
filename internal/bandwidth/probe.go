@@ -61,6 +61,7 @@ func (probe *Probe) getStats() (openVPNStats, error) {
 				value, _ := strconv.Atoi(match[2])
 				switch match[1] {
 				case "TCP/UDP read bytes":
+					log.Debugf("clientTcpUdpRead: %d", value)
 					stats.clientTcpUdpRead = value
 				case "TCP/UDP write bytes":
 					stats.clientTcpUdpWrite = value
