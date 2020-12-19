@@ -56,14 +56,14 @@ func (probe *Probe) getStats() (openVPNStats, error) {
 
 		scanner := bufio.NewScanner(file)
 		for scanner.Scan() {
-			log.Debug(scanner.Text())
 			for _, match := range r.FindAllStringSubmatch(scanner.Text(), -1) {
 				value, _ := strconv.Atoi(match[2])
 				switch match[1] {
 				case "TCP/UDP read bytes":
-					log.Debugf("clientTcpUdpRead: %d", value)
+					log.Debugf("clientTcpUdpRead: %s -> %d", match[2], value)
 					stats.clientTcpUdpRead = value
 				case "TCP/UDP write bytes":
+					log.Debugf("clientTcpUdpWrite: %s -> %d", match[2], value)
 					stats.clientTcpUdpWrite = value
 				}
 			}
