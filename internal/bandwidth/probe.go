@@ -56,6 +56,7 @@ func (probe *Probe) getStats() (openVPNStats, error) {
 
 		scanner := bufio.NewScanner(file)
 		for scanner.Scan() {
+			log.Debug(scanner.Text())
 			for _, match := range r.FindAllStringSubmatch(scanner.Text(), -1) {
 				value, _ := strconv.Atoi(match[2])
 				switch match[1] {
