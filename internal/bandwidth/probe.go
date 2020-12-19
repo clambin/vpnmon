@@ -23,7 +23,6 @@ func NewProbe(filename string) *Probe {
 // Run the probe. Collect all requires metrics
 func (probe *Probe) Run() {
 	if stats, err := probe.getStats(); err == nil {
-		log.Debugf("read: %d, write: %d", stats.clientTcpUdpRead, stats.clientTcpUdpWrite)
 		metrics.Publish("openvpn_client_tcp_udp_read_bytes_total", float64(stats.clientTcpUdpRead))
 		metrics.Publish("openvpn_client_tcp_udp_write_bytes_total", float64(stats.clientTcpUdpWrite))
 	} else {
@@ -34,15 +33,8 @@ func (probe *Probe) Run() {
 }
 
 type openVPNStats struct {
-	// clientAuthRead       int
-	// clientPreCompress    int
-	// clientPreDecompress  int
-	// clientPostCompress   int
-	// clientPostDecompress int
-	clientTcpUdpRead  int
-	clientTcpUdpWrite int
-	// clientTunTapRead     int
-	// clientTunTapWrite    int
+	clientTcpUdpRead  int64
+	clientTcpUdpWrite int64
 }
 
 func (probe *Probe) getStats() (openVPNStats, error) {
@@ -57,7 +49,7 @@ func (probe *Probe) getStats() (openVPNStats, error) {
 		scanner := bufio.NewScanner(file)
 		for scanner.Scan() {
 			for _, match := range r.FindAllStringSubmatch(scanner.Text(), -1) {
-				value, _ := strconv.Atoi(match[2])
+				value, _ := strconv.ParseInt(match[2], 10, 64)
 				switch match[1] {
 				case "TCP/UDP read bytes":
 					log.Debugf("clientTcpUdpRead: %s -> %s -> %d", scanner.Text(), match[2], value)

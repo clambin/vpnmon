@@ -29,9 +29,9 @@ func TestProbe_Run(t *testing.T) {
 		{"empty", []byte(``), 0.0, 0.0},
 		{"valid", []byte(`OpenVPN STATISTICS
 Updated,Fri Dec 18 11:24:01 2020
-TCP/UDP read bytes,1024
+TCP/UDP read bytes,5624951995
 TCP/UDP write bytes,2048
-END`), 1024.0, 2048.0},
+END`), 5624951995.0, 2048.0},
 		{"invalid", []byte(`OpenVPN STATISTICS
 Updated,Fri Dec 18 11:24:01 2020
 TCP/UDP read bytes,A
